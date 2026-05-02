@@ -59,9 +59,10 @@ rm -rf ~/.local/share/wineprefixes/battleship-st
 
 ## Uninstall
 
-Remove the prefix, the launcher, and the menu entry, then refresh the desktop database:
+Remove the prefix, the launcher, and the menu entry, then refresh the desktop database. The `chmod` step is needed because some files copied off the CD inherit its read-only mode, which blocks `rm -rf` from removing the directory tree:
 
 ```bash
+chmod -R u+w ~/.local/share/wineprefixes/battleship-st
 rm -rf ~/.local/share/wineprefixes/battleship-st
 rm -f ~/.local/bin/battleship-st
 rm -f ~/.local/share/applications/battleship-st.desktop

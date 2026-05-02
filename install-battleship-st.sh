@@ -166,6 +166,8 @@ TMP_EXTRACT="$(mktemp -d)"
 trap 'rm -rf "$TMP_EXTRACT"' EXIT
 unshield -d "$TMP_EXTRACT" x "$DATA1_CAB" >/dev/null
 cp -r "$TMP_EXTRACT"/Program_Executable_Files/. "$INSTALL_DIR"/
+# Make sure everything is writable — uninstall and Wine save files need this.
+chmod -R u+rwX "$INSTALL_DIR"
 ok "Game files installed."
 
 # ----- 5. copy music + movies into Resource\ ------------------------------
@@ -173,6 +175,7 @@ msg "Copying music + movies into Resource/ (~150 MB — slow from CD, be patient
 mkdir -p "$INSTALL_DIR/Resource"
 cp "$MUSIC_MGF"  "$INSTALL_DIR/Resource/Music.Mgf"
 cp "$MOVIES_MGF" "$INSTALL_DIR/Resource/Movies.Mgf"
+chmod u+rw "$INSTALL_DIR/Resource/Music.Mgf" "$INSTALL_DIR/Resource/Movies.Mgf"
 ok "Resources copied."
 
 [[ -n "$BS2_ICO"    ]] && cp "$BS2_ICO"    "$INSTALL_DIR/" || true
