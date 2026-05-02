@@ -11,7 +11,7 @@
 #
 # Usage:
 #   ./fix-cd-check.sh             # auto-detect mounted disc
-#   ./fix-cd-check.sh -s /media/bird/SURFACETHUNDER
+#   ./fix-cd-check.sh -s /media/$USER/SURFACETHUNDER
 # ============================================================================
 
 set -euo pipefail
@@ -65,6 +65,9 @@ for entry in "$SRC"/*; do
   cp -r "$entry" "$FAKE_CD/"
 done
 shopt -u dotglob nullglob
+
+# Disc files are read-only; clear that so an uninstall can wipe the prefix.
+chmod -R u+rwX "$FAKE_CD"
 
 # Recreate Resource/ with symlinks to the already-installed files
 mkdir -p "$FAKE_CD/Resource"
